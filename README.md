@@ -1,1 +1,1 @@
-# Patrol_Vehicle_Alert_System
+# Licese Plate Reader for Patrol Vehicle Alert System (PVAS)
