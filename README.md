@@ -9,16 +9,16 @@ Current timestamp: 34:28
 # Set-up
 
 ## Create (ana)conda environment 
- '''
+```
  Conda create --name ENV_NAME
- '''
+```
 
 ## Dependencies (--user might be necessary to run as admin)
-'''
+```
 pip install ultralytics --user
 pip install scikit-image --user
 pip install filterpy --user
-'''
+```
 
 ## Clone SORT into root directory of project
 Github link: https://github.com/abewley/sort
