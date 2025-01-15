@@ -6,7 +6,7 @@ Reference Video link: https://www.youtube.com/watch?v=fyJB1t0o0ms
 Reference Github link: https://github.com/computervisioneng/automatic-number-plate-recognition-python-yolov8
 Current timestamp: 34:28
 
-## Set-up
+# Set-up
 
 ## Create (ana)conda environment 
  '''
@@ -24,7 +24,7 @@ pip install filterpy --user
 Github link: https://github.com/abewley/sort
 
 
-## Requirements
+# Requirements
 Models should be in a models/ folder in the root directory
 Sample video (Video with license plates to test code) should be in root directory called 'sample.mp4'
 
