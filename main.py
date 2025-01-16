@@ -61,7 +61,16 @@ while ret:
             license_plate_crop_gray = cv2.cvtColor(license_plate_crop, cv2.COLOR_BGR2GRAY)
             _, license_plate_crop_thresh = cv2.threshold(license_plate_crop_gray, 64, 255, cv2.THRESH_BINARY_INV)
 
+            ##
+            # Testing current progress:
+            ##
+            cv2.imshow('original_crop', license_plate_crop)     # Testing output - comment out when working on video
+            cv2.imshow('threshold', license_plate_crop_thresh)  # Testing output - comment out when working on video
+
+            cv2.waitKey(0) # Testing output - comment out when working on video
+            ##
+
             # read the license plate number
-            license_plate_text, license_plate_text_score = util.read_license_plate(license_plate_crop_thresh)
+            #license_plate_text, license_plate_text_score = util.read_license_plate(license_plate_crop_thresh)
 
 # write results

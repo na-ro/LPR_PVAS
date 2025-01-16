@@ -28,7 +28,8 @@ Github link: https://github.com/abewley/sort <br/>
 Models should be in a models/ folder in the root directory <br/>
 Sample video (Video with license plates to test code) should be in root directory called 'sample.mp4' <br/>
 <br/>
-Download license plate model <br/>
+
+## Download license plate model 
 Direct link to model: https://drive.google.com/file/d/1Zmf5ynaTFhmln2z7Qvv-tgjkWQYQ9Zdw/view <br/>
 Github link (will be in the Readme section): https://github.com/Muhammad-Zeerak-Khan/Automatic-License-Plate-Recognition-using-YOLOv8 <br/>
 
