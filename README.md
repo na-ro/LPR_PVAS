@@ -4,7 +4,7 @@
 
 Reference Video link: https://www.youtube.com/watch?v=fyJB1t0o0ms <br/>
 Reference Github link: https://github.com/computervisioneng/automatic-number-plate-recognition-python-yolov8 <br/>
-Current timestamp: 34:28 <br/>
+Current timestamp: DONE <br/>
 
 # Set-up
 
@@ -18,6 +18,7 @@ Current timestamp: 34:28 <br/>
 pip install ultralytics --user
 pip install scikit-image --user
 pip install filterpy --user
+pip install easyocr --user
 ```
 
 ## Clone SORT into root directory of project
