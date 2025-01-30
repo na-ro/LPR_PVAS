@@ -4,7 +4,7 @@ from ultralytics import YOLO
 import cv2
 
 from sort.sort import *
-from util import get_car, read_license_plate, write_csv
+from util import get_car, read_license_plate, write_csv_wimage
 
 results = {}
 mot_tracker = Sort() # Object that can sort. Object trackers to track all vehicles
@@ -32,6 +32,7 @@ ret = True
 while ret:
     frame_nmr += 1
     ret, frame = cap.read()
+    #if ret and frame_nmr < 20: # uncomment this and comment the next line for short testing
     if ret:
         results[frame_nmr] = {}
         #detect vehicles
@@ -62,25 +63,11 @@ while ret:
                 license_plate_crop_gray = cv2.cvtColor(license_plate_crop, cv2.COLOR_BGR2GRAY)
                 _, license_plate_crop_thresh = cv2.threshold(license_plate_crop_gray, 64, 255, cv2.THRESH_BINARY_INV)
 
-                ##
-                # Testing current progress:
-                # Shows a picture of the license plate
-                ##
-                #cv2.imshow('original_crop', license_plate_crop)     # Testing output - comment out when working on video
-                #cv2.imshow('threshold', license_plate_crop_thresh)  # Testing output - comment out when working on video
-
-                #cv2.waitKey(0) # Testing output - comment out when working on video
-                ##
-
                 # read the license plate number
                 license_plate_text, license_plate_text_score = read_license_plate(license_plate_crop_thresh)
 
-                if license_plate_text is not None:
-                    results[frame_nmr][car_id] = {'car': {'bbox': [xcar1, ycar1, xcar2, ycar2]}, 
-                                                'license_plate': {'bbox': [x1, y1, x2, y2], 
-                                                                    'text': license_plate_text, 
-                                                                    'bbox_score': score, 
-                                                                    'text_score': license_plate_text_score}}
+                if license_plate_text is not None and license_plate_text_score >= 0.7:
+                    results[frame_nmr][car_id] = {'license_plate': {'text': license_plate_text, 'text_score': license_plate_text_score, 'image': license_plate_crop}}
 
 # write results
-write_csv(results, './test.csv') # save results into a csv file
+write_csv_wimage(results, './tempTEST.csv')
