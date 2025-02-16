@@ -10,7 +10,7 @@ def preprocess_image(image):
     resized_image = cv2.resize(image, None, fx=4, fy=4, interpolation=cv2.INTER_LANCZOS4)
 
     # apply gaussian blur to sharpen image as much as possible
-    # filter kernel size specified at 5x5
+    # filter kernel size specified at 7x7
     blurred = cv2.GaussianBlur(resized_image, (7,7), 0)
 
     # denoise the image
@@ -87,7 +87,7 @@ for line in result[0]:
     cv2.polylines(processed_image, [points], isClosed=True, color=(0, 255, 0), thickness=2)
 
     # convert the top_left coordinates to integers to use them for drawing the text
-    top_left = tuple(map(int, top_left))  # Convert coordinates to integers
+    top_left = tuple(map(int, top_left))
 
     # using the top_left coordinate, draw the detected text
     cv2.putText(processed_image, line[1][0], top_left, cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255), 10)
