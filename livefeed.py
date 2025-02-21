@@ -1,7 +1,7 @@
 from ultralytics import YOLO
 import cv2
 from sort.sort import *
-from util import get_car, read_license_plate, write_csv_wimage, paddle_read_license_plate
+from util import get_car, read_license_plate, write_csv_wimage, paddle_read_license_plate, write_csv, image_to_base64
 from paddleocr import PaddleOCR, draw_ocr
 import matplotlib.pyplot as plt
 from PIL import Image, ImageDraw, ImageFont
@@ -10,7 +10,7 @@ import numpy as np
 
 def preprocess_image(image):
     # read image from specified path
-    image = cv2.imread(image)
+    #image = cv2.imread(image) # Nat - commented this out since I'm not passing a file
     # upscale the image by 4x with the LANCZOS4 interpolation technique (makes edges sharper and upscales the most)
     resized_image = cv2.resize(image, None, fx=4, fy=4, interpolation=cv2.INTER_LANCZOS4)
 
@@ -32,7 +32,7 @@ def preprocess_image(image):
     # clipLimit=7 specifies the contrast enhancement, with higher values being stronger
     # tileGridSize=(25, 25) splits the image into the specified grid size to apply the enhancement
     clahe = cv2.createCLAHE(clipLimit=7, tileGridSize=(25, 25))
-
+    
     # apply the contrast enhancement only in the Luminance channel
     l = clahe.apply(l)
 
@@ -105,7 +105,7 @@ while ret: # video
     ret, frame = cap.read() # video feed
 
     #if ret: # live feed
-    if ret and frame_nmr < 20: # video feed
+    if ret and frame_nmr < 1: # video feed
         results[frame_nmr] = {}
         
         #''' # remove this comment to take out vehicle detection (helps with live-feed tests so you don't have to back up so much)
@@ -135,22 +135,13 @@ while ret: # video
                 # crop license plates
                 license_plate_crop = frame[int(y1):int(y2), int(x1): int(x2), :]
 
-                # process license plates
-                license_plate_crop_gray = cv2.cvtColor(license_plate_crop, cv2.COLOR_BGR2GRAY)
-                _, license_plate_crop_thresh = cv2.threshold(license_plate_crop_gray, 64, 255, cv2.THRESH_BINARY_INV)
-
-                ###
-                im_show = Image.fromarray(license_plate_crop)
-                im_show.save('./tmp_image.jpg')
-
                 # process the image and perform OCR
-                image_path = './tmp_image.jpg'
-                processed_image = preprocess_image(image_path)
+                processed_image = preprocess_image(license_plate_crop) 
                 result = ocr.ocr(processed_image, cls=True)
                 
                 # display the results by looping through the returned results
                 # results are returned as an array of arrays with bounding box coordinates and text + confidence scores
-                if result[0] is not None: # Got
+                if result[0] is not None: # Got error without this when frames don't have a license plate.
                     for line in result[0]:
                         text, prob = line[1][0], line[1][1]
                         print(f"Detected text: {text} with probability {prob:.2f}")
@@ -163,7 +154,7 @@ while ret: # video
                     print(f"No detected license plate. Frame number: ", frame_nmr)
 
                 # Show image
-                '''
+                #'''
                 # initialize the image canvas
                 fig, ax = plt.subplots(figsize=(15, 15))
                 ax.axis('off')  # hide axes
@@ -188,17 +179,13 @@ while ret: # video
                     cv2.putText(processed_image, line[1][0], top_left, cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255), 10)
 
                 # show the license plate image with all the drawn results
-                ax.imshow(processed_image)
-                plt.show()
-                '''
-                ###
-
-                # read the license plate number - old
-                #paddle_license_plate_text, paddle_license_text_score = paddle_read_license_plate(license_plate_crop) # Uses PaddleOCR
+                #ax.imshow(processed_image)
+                #plt.show()
+                #'''
 
                 #if license_plate_text is not None and license_plate_text_score >= 0.7: # Uncomment this and comment the next to only include above 70% confidence scores
                 if paddle_license_plate_text is not None:
-                    results[frame_nmr][car_id] = {'license_plate': {'text': paddle_license_plate_text, 'text_score': paddle_license_text_score, 'image': license_plate_crop}}
+                    results[frame_nmr][car_id] = {'license_plate': {'text': paddle_license_plate_text, 'text_score': paddle_license_text_score, 'cropped image': license_plate_crop}}
                     
                     #live feed test (take out car_id), comment out line before this
                     #results[frame_nmr][1] = {'license_plate': {'text': paddle_license_plate_text, 'text_score': paddle_license_text_score, 'image': license_plate_crop}}
@@ -217,5 +204,4 @@ cv2.destroyAllWindows()
 '''
 
 # write results
-write_csv_wimage(results, './liveFeed_paddle.csv') # When outputting for easyOCR
-
+write_csv_wimage(results, './liveFeed_paddle.csv') 
