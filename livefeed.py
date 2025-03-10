@@ -81,7 +81,7 @@ vehicles = [2, 3, 5, 7] # Detect [car, motorbike, bus, truck]
 #################
 # load video
 #################
-cap = cv2.VideoCapture('./sample.mp4') # UK plates - showed up to 92% accuracy
+#cap = cv2.VideoCapture('./sample.mp4') # UK plates - showed up to 92% accuracy
 #cap = cv2.VideoCapture('./sample2.mp4') # Florida plates
 
 #################
@@ -97,16 +97,16 @@ frame_height = int(cam.get(cv2.CAP_PROP_FRAME_HEIGHT))
 # read frames from live feed
 #################
 frame_nmr = -1
-ret = True #video
+#ret = True #video
 
-#while True: # live
-while ret: # video
+while True: # live
+#while ret: # video
     frame_nmr += 1
-    #ret, frame = cam.read() # live feed
-    ret, frame = cap.read() # video feed
+    ret, frame = cam.read() # live feed
+    #ret, frame = cap.read() # video feed
 
-    #if ret: # live feed
-    if ret and frame_nmr < 1: # video feed
+    if ret: # live feed
+    #if ret and frame_nmr < 1: # video feed
         results[frame_nmr] = {}
         
         #''' # remove this comment to take out vehicle detection (helps with live-feed tests so you don't have to back up so much)
@@ -191,7 +191,7 @@ while ret: # video
                     #live feed test (take out car_id), comment out line before this
                     #results[frame_nmr][1] = {'license_plate': {'text': paddle_license_plate_text, 'text_score': paddle_license_text_score, 'image': license_plate_crop}}
 
-''' # uncomment this during live testing. Press 'q' to close live video feed and quit program
+#''' # uncomment this during live testing. Press 'q' to close live video feed and quit program
     # Display the captured frame
     cv2.imshow('Camera', frame)
 
@@ -202,7 +202,7 @@ while ret: # video
 # Release the capture
 cam.release()
 cv2.destroyAllWindows()
-'''
+#'''
 
 # write results
 write_csv_wimage(results, './liveFeed_paddle.csv') 
