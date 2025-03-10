@@ -1,14 +1,9 @@
-import string
-import easyocr
 # for image base64 encoding
 import base64
 import cv2
-from io import BytesIO
 from paddleocr import PaddleOCR, draw_ocr
 
 # Initialize the OCR reader
-reader = easyocr.Reader(['en'], gpu=False)
-
 # Paddleocr supports Chinese, English, French, German, Korean and Japanese
 # You can set the parameter `lang` as `ch`, `en`, `french`, `german`, `korean`, `japan` to switch the language model in order
 #################
@@ -188,30 +183,6 @@ def format_license(text):
             license_plate_ += text[j]
 
     return license_plate_
-
-
-def read_license_plate(license_plate_crop):
-    """
-    Read the license plate text from the given cropped image.
-
-    Args:
-        license_plate_crop (PIL.Image.Image): Cropped image containing the license plate.
-
-        Returns:
-            tuple: Tuple containing the formatted license plate text and its confidence score.
-    """
-    detections = reader.readtext(license_plate_crop)
-
-    for detection in detections:
-        bbox, text, score = detection #unwrap object
-
-        text = text.upper().replace(' ', '')
-
-        if license_complies_format(text):
-            #return format_license(text), score
-            return text, score
-        
-    return None, None
 
 
 def paddle_read_license_plate(license_plate_crop):

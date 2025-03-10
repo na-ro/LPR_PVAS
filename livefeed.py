@@ -1,7 +1,7 @@
 from ultralytics import YOLO
 import cv2
 from sort.sort import *
-from util import get_car, read_license_plate, write_csv_wimage, paddle_read_license_plate, write_csv, image_to_base64
+from util import get_car, write_csv_wimage
 from paddleocr import PaddleOCR, draw_ocr
 import matplotlib.pyplot as plt
 from PIL import Image, ImageDraw, ImageFont
@@ -58,6 +58,7 @@ def preprocess_image(image):
 
     # convert grayscale/thresh image back to 3 channels, as PaddleOCR requires 3
     return cv2.cvtColor(inverted_thresh, cv2.COLOR_GRAY2RGB)
+
 
 results = {}
 mot_tracker = Sort() # Object that can sort. Object trackers to track all vehicles
