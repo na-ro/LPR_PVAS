@@ -24,6 +24,12 @@ pip install easyocr --user
 ## Clone SORT into root directory of project
 Github link: https://github.com/abewley/sort <br/>
 
+## Import Paddle
+pip install paddlepaddle --user
+git clone https://github.com/PaddlePaddle/PaddleOCR
+Cd paddleOCR
+pip3 install -r requirements.txt --user
+Pip install paddleocr --user
 
 # Requirements
 Models should be in a models/ folder in the root directory <br/>
