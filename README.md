@@ -18,7 +18,7 @@ Current timestamp: DONE <br/>
 pip install ultralytics --user
 pip install scikit-image --user
 pip install filterpy --user
-pip install easyocr --user
+pip install opencv-python --user
 ```
 
 ## Clone SORT into root directory of project
