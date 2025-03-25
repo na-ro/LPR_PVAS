@@ -6,7 +6,28 @@ Reference Video link: https://www.youtube.com/watch?v=fyJB1t0o0ms <br/>
 Reference Github link: https://github.com/computervisioneng/automatic-number-plate-recognition-python-yolov8 <br/>
 Current timestamp: DONE <br/>
 
-# Set-up
+# Set-up (Ubuntu)
+
+## Create (ana)conda environment 
+```
+ conda create --name NAME python=3.8
+```
+## Dependencies (--user might be necessary to run as admin)
+```
+pip install ultralytics --user
+pip install scikit-image --user
+pip install filterpy --user
+pip install opencv-python --user
+pip install paddleocr --user
+python3 -m pip download paddlepaddle==2.4.2 -f https://www.paddlepaddle.org.cn/whl/linux/mkl/noavx/stable.html --no-index --no-deps
+python3 -m pip install NAME.whl
+git clone https://github.com/abewley/sort.git
+```
+
+Checking if paddlepaddle is installed correctly:<br/>
+Run <python3>, <import paddle> then <paddle.utils.run_check()> (It should return 'paddle installed successfully!' at the end of the outputs)
+
+# Set-up (Windows)
 
 ## Create (ana)conda environment 
 ```
