@@ -12,7 +12,7 @@ def preprocess_image(image):
     # read image from specified path
     #image = cv2.imread(image) # Nat - commented this out since I'm not passing a file
     # upscale the image by 4x with the LANCZOS4 interpolation technique (makes edges sharper and upscales the most)
-    resized_image = cv2.resize(image, None, fx=2, fy=2, interpolation=cv2.INTER_LANCZOS4)
+    resized_image = cv2.resize(image, (600, 400), interpolation=cv2.INTER_LANCZOS4)
 
     # apply gaussian blur to sharpen image as much as possible
     # filter kernel size specified at 7x7
@@ -88,6 +88,9 @@ vehicles = [2, 3, 5, 7] # Detect [car, motorbike, bus, truck]
 #################
 cam = cv2.VideoCapture(0) # Live video feed
 
+fps = 10 # Desired frames per second
+cam.set(cv2.CAP_PROP_FPS, fps)
+
 # Get the default frame width and height
 frame_width = int(cam.get(200))
 frame_height = int(cam.get(100))
@@ -126,10 +129,6 @@ while True: # live
                 # process the image and perform OCR
                 processed_image = preprocess_image(license_plate_crop) 
                 result = ocr.ocr(processed_image, cls=True)
-                
-                # initialize the image canvas
-                fig, ax = plt.subplots(figsize=(15, 15))
-                ax.axis('off')  # hide axes
                 
                 # display the results by looping through the returned results
                 # results are returned as an array of arrays with bounding box coordinates and text + confidence scores
