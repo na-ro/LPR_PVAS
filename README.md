@@ -36,7 +36,7 @@ In windows, paddlepaddle can be installed normally with pip. This means any pyth
  conda create --name ENV_NAME
 ```
 
-### Dependencies (--user might be necessary to run as admin)
+### Dependencies
 Install all dependencies using pip (--user might be necessary to run as admin):
 ```
 pip install ultralytics --user
