@@ -1,3 +1,9 @@
+'''
+Description:
+This live feed can be run on a machine with a webcam -- the intent to use this script for local testing
+    It should be identicle to the script in main. 
+    The difference is that cam = cv2.VideoCapture(0) is used instead of the ip of the cameras for the Cupcake server
+'''
 from ultralytics import YOLO
 import cv2
 from sort.sort import *
@@ -6,11 +12,11 @@ from paddleocr import PaddleOCR, draw_ocr
 import matplotlib.pyplot as plt
 from PIL import Image, ImageDraw, ImageFont
 import numpy as np
+import concurrent.futures
 
 
 def preprocess_image(image):
     # read image from specified path
-    #image = cv2.imread(image) # Nat - commented this out since I'm not passing a file
     # upscale the image by 4x with the LANCZOS4 interpolation technique (makes edges sharper and upscales the most)
     resized_image = cv2.resize(image, (600, 400), interpolation=cv2.INTER_LANCZOS4)
 
@@ -67,12 +73,11 @@ mot_tracker = Sort() # Object that can sort. Object trackers to track all vehicl
 #################
 ocr = PaddleOCR(use_angle_cls=True, lang='en') # need to run only once to download and load model into memory
 
-# Load two models. One detects cars, the other detects license plates
-# coco_model trained on coco dataset. Pretrained model from ultralytics. Used to detect cars.
+# Load two models. One detects cars, the other detects license plates. coco_model trained on coco dataset. Pretrained model from ultralytics. Used to detect cars.
 #################
 # load models 
 #################
-coco_model = YOLO('./models/yolo11n.pt')
+#coco_model = YOLO('./models/yolo11n.pt')
 license_plate_detector = YOLO('./models/LPRModel.pt') 
 
 vehicles = [2, 3, 5, 7] # Detect [car, motorbike, bus, truck]
@@ -103,57 +108,56 @@ frame_nmr = -1
 
 while True: # live
 #while ret: # video
-    frame_nmr += 1
     ret, frame = cam.read() # live feed
     #ret, frame = cap.read() # video feed
 
+     #if ret and frame_nmr < 1: # video feed
     if ret: # live feed
-    #if ret and frame_nmr < 1: # video feed
-        results[frame_nmr] = {}
+        frame_nmr += 1
+        if frame_nmr % 10 == 0:
+            results[frame_nmr] = {}
 
-        # detect license plates
-        license_plates = license_plate_detector(frame)[0]
-        for license_plate in license_plates.boxes.data.tolist():
-            x1, y1, x2, y2, score, class_id = license_plate
+            # detect license plates
+            license_plates = license_plate_detector(frame)[0]
+            for license_plate in license_plates.boxes.data.tolist():
+                x1, y1, x2, y2, score, class_id = license_plate
 
-            # assign license plate to car
-            # xcar1, ycar1, xcar2, ycar2, car_id = get_car(license_plate, track_ids) # comment out if vehicle detection has been removed 
-            
-	        #sometimes gives us a car_id error sometimes it doesn't ??? (get back to this at some point)	
-            #if car_id != -1: # comment out car_id if vehicle detection has been removed
-            if True: #used when commented out car_id
-
-                # crop license plates
-                license_plate_crop = frame[int(y1):int(y2), int(x1): int(x2), :]
-
-                # process the image and perform OCR
-                processed_image = preprocess_image(license_plate_crop) 
-                result = ocr.ocr(processed_image, cls=True)
+                # assign license plate to car
+                # xcar1, ycar1, xcar2, ycar2, car_id = get_car(license_plate, track_ids) # comment out if vehicle detection has been removed 
                 
-                # display the results by looping through the returned results
-                # results are returned as an array of arrays with bounding box coordinates and text + confidence scores
-                if result[0] is not None: # Got error without this when frames don't have a license plate.
-                    for line in result[0]:
-                        text, prob = line[1][0], line[1][1]
-                        print(f"Detected text: {text} with probability {prob:.2f}")
-                        ##########################
-                        # For results array
-                        paddle_license_plate_text, paddle_license_text_score = line[1][0], line[1][1]
-                        ##########################             
-                else:
-                    paddle_license_plate_text = None # default
-                    print(f"No detected license plate. Frame number: ", frame_nmr)
+                #sometimes gives us a car_id error sometimes it doesn't ??? (get back to this at some point)	
+                #if car_id != -1: # comment out car_id if vehicle detection has been removed
+                if True: #used when commented out car_id
 
-                #if license_plate_text is not None and license_plate_text_score >= 0.7: # Uncomment this and comment the next to only include above 70% confidence scores
-                if paddle_license_plate_text is not None:
-                    #results[frame_nmr][car_id] = {'license_plate': {'text': paddle_license_plate_text, 'text_score': paddle_license_text_score, 'cropped image': license_plate_crop}}
+                    # crop license plates
+                    license_plate_crop = frame[int(y1):int(y2), int(x1): int(x2), :]
+
+                    # process the image and perform OCR
+                    processed_image = preprocess_image(license_plate_crop) 
+                    result = ocr.ocr(processed_image, cls=True)
                     
-                    #live feed test (take out car_id), comment out line before this
-                    results[frame_nmr][1] = {'license_plate': {'text': paddle_license_plate_text, 'text_score': paddle_license_text_score, 'image': license_plate_crop}}
+                    # display the results by looping through the returned results
+                    # results are returned as an array of arrays with bounding box coordinates and text + confidence scores
+                    if result[0] is not None: # Got error without this when frames don't have a license plate.
+                        for line in result[0]:
+                            text, prob = line[1][0], line[1][1]
+                            print(f"Detected text: {text} with probability {prob:.2f}")
+                            # For results array
+                            paddle_license_plate_text, paddle_license_text_score = line[1][0], line[1][1]
+                    else:
+                        paddle_license_plate_text = None # default
+                        print(f"No detected license plate. Frame number: ", frame_nmr)
 
- # Uncomment this during live testing. Press 'q' to close live video feed and quit program
+                    #if license_plate_text is not None and license_plate_text_score >= 0.7: # Uncomment this and comment the next to only include above 70% confidence scores
+                    if paddle_license_plate_text is not None:
+                        #results[frame_nmr][car_id] = {'license_plate': {'text': paddle_license_plate_text, 'text_score': paddle_license_text_score, 'cropped image': license_plate_crop}}
+                        
+                        #live feed test (take out car_id), comment out line before this
+                        results[frame_nmr][1] = {'license_plate': {'text': paddle_license_plate_text, 'text_score': paddle_license_text_score, 'image': license_plate_crop}}
+
     # Display the captured frame
-    cv2.imshow('Camera', frame)
+    # Uncomment this during live testing. Press 'q' to close live video feed and quit program
+    cv2.imshow('Camera', frame) 
 
     # Press 'q' to exit 
     if cv2.waitKey(1) == ord('q'):
@@ -165,4 +169,4 @@ cv2.destroyAllWindows()
 
 
 # write results
-write_csv_wimage(results, './cupcaketest.csv') 
+write_csv_wimage(results, './localTest.csv') 
