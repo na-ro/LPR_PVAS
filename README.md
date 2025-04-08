@@ -1,4 +1,4 @@
-# License Plate Reader for Patrol Vehicle Alert System (PVAS)
+# Running PVAS Locally (machine with webcam)
 
 ## Set-up (Ubuntu)
 The entire subsystem set-up should take approximately **9.3 GB** of space.
@@ -27,3 +27,26 @@ python3 -m pip download paddlepaddle==2.4.2 -f https://www.paddlepaddle.org.cn/w
 python3 -m pip install NAME.whl
 ```
 To test if paddlepaddle has been successfully installed, run *$python3*, *$import paddle* then *$paddle.utils.run_check()* (It should return 'paddle installed successfully!' at the end of the outputs)
+
+## Set-up (Windows)
+
+### Create (ana)conda environment 
+In windows, paddlepaddle can be installed normally with pip. This means any python version can be used, unlike in Ubuntu machines.
+```
+ conda create --name ENV_NAME
+```
+
+### Dependencies (--user might be necessary to run as admin)
+Install all dependencies using pip (--user might be necessary to run as admin):
+```
+pip install ultralytics --user
+pip install scikit-image --user
+pip install filterpy --user
+pip install opencv-python --user
+pip install paddleocr --user
+pip install paddlepaddle --user
+git clone https://github.com/abewley/sort
+```
+
+## Requirements
+Models should be in a models/ folder in the root directory <br/>
