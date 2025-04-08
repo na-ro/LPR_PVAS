@@ -73,8 +73,7 @@ ocr = PaddleOCR(use_angle_cls=True, lang='en') # need to run only once to downlo
 # load models 
 #################
 coco_model = YOLO('./models/yolo11n.pt')
-license_plate_detector = YOLO('./models/LPRModel.pt') 
-
+license_plate_detector = YOLO('./models/best.pt') 
 vehicles = [2, 3, 5, 7] # Detect [car, motorbike, bus, truck]
 
 #################
