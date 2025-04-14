@@ -26,4 +26,6 @@ The latest version of paddlepaddle -- as of 3/25/25 -- that supports noavx insta
 python3 -m pip download paddlepaddle==2.4.2 -f https://www.paddlepaddle.org.cn/whl/linux/mkl/noavx/stable.html --no-index --no-deps
 python3 -m pip install NAME.whl
 ```
-To test if paddlepaddle has been successfully installed, run *$python3*, *$import paddle* then *$paddle.utils.run_check()* (It should return 'paddle installed successfully!' at the end of the outputs)
+To test if paddlepaddle has been successfully installed, run *$python3*, *$import paddle* then *$paddle.utils.run_check()* (It should return 'paddle installed successfully!' at the end of the outputs)<br/>
+<br/>
+For further explanation of the subsystem go to [LPR_DESCRIPTION.md](LPR_DESCRIPTION.md)
