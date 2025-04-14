@@ -37,7 +37,6 @@ In windows, paddlepaddle can be installed normally with pip. This means any pyth
 ```
  conda create --name ENV_NAME
 ```
-</br>
 Miniconda (a minimal version of anaconda) can be installed with these [instructions](https://www.anaconda.com/docs/getting-started/miniconda/install).
 
 ### Dependencies
