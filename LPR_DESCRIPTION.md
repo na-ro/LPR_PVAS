@@ -5,8 +5,8 @@ The **Local-LiveFeed branch** includes code and instructions to run this subsyst
 Other branches were used for development.
 
 ## Dependency Explanation
-**YOLO11:** Object detector. "YOLO systems enable real-time monitoring." [Here](https://github.com/ultralytics/ultralytics) is the GitHub Repository and [here](https://docs.ultralytics.com/) is the documentation for YOLO. <br/>
-**PaddleOCR:** Optional Character Recognition (OCR) - reads text from images to turn it into something useable by the subsystem. This team compared PaddleOCR with EasyOCR and found Paddle to be more accurate. [Here](https://github.com/PaddlePaddle/PaddleOCR) is the GitHub. PaddleOCR is made by the company PaddlePaddle, which is a Chinese company. All code is available to be looked at in the GitHub. Look through tools/README_en.md for the English version of the documentation. [Here](https://paddlepaddle.github.io/PaddleOCR/main/en/quick_start.html) is the quickstart documentation and the documentation home is [here](https://paddlepaddle.github.io/PaddleOCR/main/en/index.html).<br/>
+**YOLO11:** Object detector. "YOLO systems enable real-time monitoring." Here is [Yolo's GitHub Repository](https://github.com/ultralytics/ultralytics) and the [documentation for YOLO](https://docs.ultralytics.com/). <br/>
+**PaddleOCR:** Optional Character Recognition (OCR) - reads text from images to turn it into something useable by the subsystem. This team compared PaddleOCR with EasyOCR and found Paddle to be more accurate. The following are some helpful links: The [GitHub](https://github.com/PaddlePaddle/PaddleOCR) -- PaddleOCR is made by the company PaddlePaddle, which is a Chinese company. All code is available to be looked at in the GitHub, look through tools/README_en.md for the English version of the documentation --The [quickstart documentation](https://paddlepaddle.github.io/PaddleOCR/main/en/quick_start.html) and the [documentation home](https://paddlepaddle.github.io/PaddleOCR/main/en/index.html).<br/>
 <br/>
 The [README.md](README.md) contains instructions to install these dependencies.
 
