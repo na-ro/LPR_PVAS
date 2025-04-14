@@ -8,7 +8,9 @@ Anaconda environments were used for easy dependency management per subystem. The
 ```
 conda create --name NAME python=3.8
 ```
-Other helpful conda commands: *$conda activate ENV_NAME* activates a conda enviornment, *$conda deactivate* will deactivate it. To list all conda enviornments on the machine, use *$conda env list*
+Other helpful conda commands: *$conda activate ENV_NAME* activates a conda enviornment, *$conda deactivate* will deactivate it. To list all conda enviornments on the machine, use *$conda env list*</br>
+</br>
+Miniconda (a minimal version of anaconda) can be installed with these [instructions](https://www.anaconda.com/docs/getting-started/miniconda/install).
 
 ### Dependencies
 Most requirements can be installed using pip (--user might be necessary to run as admin):
@@ -35,6 +37,8 @@ In windows, paddlepaddle can be installed normally with pip. This means any pyth
 ```
  conda create --name ENV_NAME
 ```
+</br>
+Miniconda (a minimal version of anaconda) can be installed with these [instructions](https://www.anaconda.com/docs/getting-started/miniconda/install).
 
 ### Dependencies
 Install all dependencies using pip (--user might be necessary to run as admin):
