@@ -4,8 +4,8 @@ The **main branch** includes code and instructions to run this subsystem on the 
 The **Local-LiveFeed branch** includes code and instructions to run this subsystem **locally** (windows/Ubuntu computers that have integrated webcams). <br/>
 Other branches were used for development.
 
-## Script Explanation
-**Skipframes** is the most updated script which will run on local machine as-is. To run on the Unigen Cupcake server, the cam variable on line 82 should be **changed to use the IP cameras instead of an integrated webcam**. <br/>
+## Scripts Explanation
+Skipframes is the most updated script which will run on local machine as-is. To run on the Unigen Cupcake server, the cam variable on line 82 should be **changed to use the IP cameras instead of an integrated webcam**. <br/>
 **skipframes.py** will write output to a csv file. This will store the frame, text, text confidence score, and the base64 conversion of the origionally detected cropped image of the license plate. <br/>
 **skipframes_ShowImagePreprocessing.py** is useful for preprocessing testing and editing. During live feed testing, the fully preprocessed image and OCR result will be displayed to the user. For each detected license plate, an image will process, be shown to the user, and **will need to be exited out of** (by pressing q) to continue live feed testing.
 
