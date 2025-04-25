@@ -4,6 +4,11 @@ The **main branch** includes code and instructions to run this subsystem on the 
 The **Local-LiveFeed branch** includes code and instructions to run this subsystem **locally** (windows/Ubuntu computers that have integrated webcams). <br/>
 Other branches were used for development.
 
+## Script Explanation
+**Skipframes** is the most updated script which will run on local machine as-is. To run on the Unigen Cupcake server, the cam variable on line 82 should be **changed to use the IP cameras instead of an integrated webcam**. <br/>
+**skipframes.py** will write output to a csv file. This will store the frame, text, text confidence score, and the base64 conversion of the origionally detected cropped image of the license plate. <br/>
+**skipframes_ShowImagePreprocessing.py** is useful for preprocessing testing and editing. During live feed testing, the fully preprocessed image and OCR result will be displayed to the user. For each detected license plate, an image will process, be shown to the user, and **will need to be exited out of** (by pressing q) to continue live feed testing.
+
 ## Dependency Explanation
 **YOLO11:** Object detector. "YOLO systems enable real-time monitoring." Here is [Yolo's GitHub Repository](https://github.com/ultralytics/ultralytics) and the [documentation for YOLO](https://docs.ultralytics.com/). <br/>
 **PaddleOCR:** Optional Character Recognition (OCR) - reads text from images to turn it into something useable by the subsystem. This team compared PaddleOCR with EasyOCR and found Paddle to be more accurate. The following are some helpful links: The [GitHub](https://github.com/PaddlePaddle/PaddleOCR) -- PaddleOCR is made by the company PaddlePaddle, which is a Chinese company. All code is available to be looked at in the GitHub, look through tools/README_en.md for the English version of the documentation --The [quickstart documentation](https://paddlepaddle.github.io/PaddleOCR/main/en/quick_start.html) and the [documentation home](https://paddlepaddle.github.io/PaddleOCR/main/en/index.html).<br/>
